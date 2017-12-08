@@ -63,21 +63,21 @@ with open(args.o, "w", newline="") as csvfile:
                     title = detail.split('</b>')[1]
 
                 if "Genre" in detail:
-                    splitted_links = detail.split('</b>')[1].split(",")
+                    splitted_links = detail.split('</b>')[1].split(", <a")
                     data_array = []
                     for link in splitted_links:
                         data_array.append(link.split("\">")[1].replace('</a>', ''))
                     genre = ','.join(data_array)
 
                 if "Developer" in detail:
-                    splitted_links = detail.split('</b>')[1].split(",")
+                    splitted_links = detail.split('</b>')[1].split(", <a")
                     data_array = []
                     for link in splitted_links:
                         data_array.append(link.split("\">")[1].replace('</a>', ''))
                     developer = ','.join(data_array)
 
                 if "Publisher" in detail:
-                    splitted_links = detail.split('</b>')[1].split(",")
+                    splitted_links = detail.split('</b>')[1].split(", <a")
                     data_array = []
                     for link in splitted_links:
                         data_array.append(link.split("\">")[1].replace('</a>', ''))
