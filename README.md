@@ -45,3 +45,8 @@ Scraping game data with id 257070.
 
 ## Dependency
 HTML parser:  [Beautiful Soup](https://www.crummy.com/software/BeautifulSoup/bs4/doc/#installing-beautiful-soup).
+
+## Known issues
+The script doesn't handle:
+- region locked games won't be fetch. For example the Dishonored RHCP (Russian, Hungarian, Czech, Polish) version's id is 217980, but in another region is 205100.
+- multiple details, for example multiple genres.
