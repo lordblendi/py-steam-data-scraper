@@ -113,7 +113,7 @@ with open(args.o, "w", newline="") as csvfile:
                 cells = row.select('td')
                 name = str(cells[0])
                 data = str(cells[1])
-                if "alternateName" in data:
+                if "name" in data:
                     title = data.split("\">")[1].replace('</td>', '')
                 if "author" in data:
                     developer += data.split("\">")[1].split('<')[0]
