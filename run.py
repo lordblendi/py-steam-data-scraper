@@ -5,6 +5,18 @@ import json
 from bs4 import BeautifulSoup
 import csv
 import io
+import argparse
+import json
+
+# settings arguments
+parser = argparse.ArgumentParser(
+    prog='run.py', description="Script to scrape game details from steam and write it into a csv file")
+parser.add_argument('-i', metavar='input',
+                    help="input filename", required=True, type=str)
+parser.add_argument('-o', metavar='output',
+                    help="output filename", required=True, type=str)
+args = parser.parse_args()
+
 
 url_prefix = 'http://store.steampowered.com/app/'
 filter_string = '.responsive_apppage_details_left.game_details .details_block'
@@ -12,30 +24,57 @@ filter_string = '.responsive_apppage_details_left.game_details .details_block'
 cookies = {'birthtime': '568022401'}
 columns = ['title', 'developer', 'publisher', 'release_date', 'genre']
 
+# parsing json
 
-with open("output.csv", "w", newline="") as csvfile:
+json_file = open(args.i).read()
+json_data = json.loads(json_file)
+rgOwnedApps = json_data['rgOwnedApps']
+
+with open(args.o, "w", newline="") as csvfile:
     # create csv file and add columns
-    writer = csv.writer(csvfile, delimiter=',', quotechar='"', quoting=csv.QUOTE_ALL)
+    writer = csv.writer(csvfile, delimiter=',',
+                        quotechar='"', quoting=csv.QUOTE_ALL)
     writer.writerow(columns)
 
-    url = url_prefix + "50"
+    for game_id in rgOwnedApps:
+        url = url_prefix + str(game_id)
 
-    # get the html data and parse it
-    html_response = requests.get(url, cookies=cookies)
-    soup = BeautifulSoup(html_response.text, 'html.parser')
-    # get game details, it's in the first block
-    game_details = soup.select(filter_string)[0].prettify()
+        # get the html data and parse it
+        html_response = requests.get(url, cookies=cookies)
+        soup = BeautifulSoup(html_response.text, 'html.parser')
+        soup_data = soup.select(filter_string)
 
+        # to make sure the game still exists
+        if len(soup_data) > 0:
+            print("Scraping game data with id {0}.".format(game_id))
+            # get game details, it's in the first block
+            soup_prettified = soup_data[0].prettify()
 
-    # parse string parts
-    game_details = game_details.replace('\n', '')
-    game_details = game_details.split('<br/>')
+            # parse string parts
+            game_details = soup_prettified.replace('\n', '').split('<br/>')
+            title = ""
+            developer = ""
+            genre = ""
+            publisher = ""
+            release_date = ""
 
-    title = game_details[0].split('</b>')[1]
-    genre = game_details[1].split('</b>')[1].split("\">")[1].replace('</a>','')
-    developer = game_details[2].split('</b>')[1].split("\">")[1].replace('</a>','')
-    publisher = game_details[3].split('</b>')[1].split("\">")[1].replace('</a>','')
-    release_date = game_details[4].split('</b>')[1]
+            # make sure the items exists
+            for detail in game_details:
+                if "Title" in detail:
+                    title = detail.split('</b>')[1]
+                if "Genre" in detail:
+                    genre = detail.split(
+                        '</b>')[1].split("\">")[1].replace('</a>', '')
+                if "Developer" in detail:
+                    developer = detail.split(
+                        '</b>')[1].split("\">")[1].replace('</a>', '')
+                if "Publisher" in detail:
+                    publisher = detail.split(
+                        '</b>')[1].split("\">")[1].replace('</a>', '')
+                if "Release" in detail:
+                    release_date = detail.split('</b>')[1]
 
-    # write details into the csv file
-    writer.writerow([title, developer, publisher, release_date, genre])
+            # write details into the csv file
+            writer.writerow([title, developer, publisher, release_date, genre])
+        else:
+            print("The game with id {0} doesn't exist anymore.".format(game_id))
