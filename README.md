@@ -33,5 +33,15 @@ The output file will be a csv file.
 " Half-Life ","  Valve  ","  Valve  "," 8 Nov, 1998 ","  Action  "
 ```
 
+### Example log output
+The script does a simple `print()` output to let you know which games were successfully scraped and which ones were not.
+```
+Scraping game data with id 254440.
+Scraping game data with id 255300.
+The game with id 255520 doesn't exist anymore.
+Scraping game data with id 255980.
+Scraping game data with id 257070.
+```
+
 ## Dependency
 HTML parser:  [Beautiful Soup](https://www.crummy.com/software/BeautifulSoup/bs4/doc/#installing-beautiful-soup).
