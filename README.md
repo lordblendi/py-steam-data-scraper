@@ -14,7 +14,7 @@ The script has two mandatory parameters:
 - `o` output file name. Mandatory and has to be a string.
 
 ### Input file
-Input data: Use the **json** from [http://store.steampowered.com/dynamicstore/userdata/](http://store.steampowered.com/dynamicstore/userdata/) website after you logged in on web steam. The script only uses the `rgOwnedApps` array.
+Use the **json** from [http://store.steampowered.com/dynamicstore/userdata/](http://store.steampowered.com/dynamicstore/userdata/) website after you logged in on web steam. The script only uses the `rgOwnedApps` array.
 
 ```json
 {
