@@ -57,20 +57,32 @@ with open(args.o, "w", newline="") as csvfile:
             genre = ""
             publisher = ""
             release_date = ""
-
             # make sure the items exists
             for detail in game_details:
                 if "Title" in detail:
                     title = detail.split('</b>')[1]
+
                 if "Genre" in detail:
-                    genre = detail.split(
-                        '</b>')[1].split("\">")[1].replace('</a>', '')
+                    splitted_links = detail.split('</b>')[1].split(",")
+                    data_array = []
+                    for link in splitted_links:
+                        data_array.append(link.split("\">")[1].replace('</a>', ''))
+                    genre = ','.join(data_array)
+
                 if "Developer" in detail:
-                    developer = detail.split(
-                        '</b>')[1].split("\">")[1].replace('</a>', '')
+                    splitted_links = detail.split('</b>')[1].split(",")
+                    data_array = []
+                    for link in splitted_links:
+                        data_array.append(link.split("\">")[1].replace('</a>', ''))
+                    developer = ','.join(data_array)
+
                 if "Publisher" in detail:
-                    publisher = detail.split(
-                        '</b>')[1].split("\">")[1].replace('</a>', '')
+                    splitted_links = detail.split('</b>')[1].split(",")
+                    data_array = []
+                    for link in splitted_links:
+                        data_array.append(link.split("\">")[1].replace('</a>', ''))
+                    publisher = ','.join(data_array)
+
                 if "Release" in detail:
                     release_date = detail.split('</b>')[1]
 
