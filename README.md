@@ -1,6 +1,8 @@
 # Steam data scraper
 
-Short script to scrape game details (title, developer, publisher, release date and genre) from steam.
+Short script to scrape game details (title, developer, publisher, release date and genre) from Steam.
+
+**Region locked games** cannot be fetched from steam. For example the Dishonored RHCP (Russian, Hungarian, Czech, Polish) version's id is 217980, but in another region is 205100. Because of this, I'll use the [SteamDB](https://steamdb.info) website
 
 ## How to run the script
 ```bash
@@ -14,7 +16,7 @@ The script has two mandatory parameters:
 - `o` output file name. Mandatory and has to be a string.
 
 ### Input file
-Use the **json** from [http://store.steampowered.com/dynamicstore/userdata/](http://store.steampowered.com/dynamicstore/userdata/) website after you logged in on web steam. The script only uses the `rgOwnedApps` array.
+Use the **json** from [http://store.steampowered.com/dynamicstore/userdata/](http://store.steampowered.com/dynamicstore/userdata/) website after you logged in on [web Steam](store.steampowered.com). The script only uses the `rgOwnedApps` array.
 
 ```json
 {
@@ -45,7 +47,3 @@ Scraping game data with id 257070.
 
 ## Dependency
 HTML parser:  [Beautiful Soup](https://www.crummy.com/software/BeautifulSoup/bs4/doc/#installing-beautiful-soup).
-
-## Known issues
-The script doesn't handle:
-- region locked games won't be fetch. For example the Dishonored RHCP (Russian, Hungarian, Czech, Polish) version's id is 217980, but in another region is 205100.
