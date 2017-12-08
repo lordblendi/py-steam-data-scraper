@@ -1,6 +1,6 @@
 # data files
-data.json
-output.csv
+*.json
+*.csv
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
